@@ -1,5 +1,7 @@
 import { useState, FormEvent } from "react"
 import axios from "axios"
+import { TextField, Button, Flex, Text, Card, Heading } from "@radix-ui/themes"
+import Link from "next/link"
 
 export default function HomePage() {
 	const [url, setUrl] = useState("")
@@ -38,43 +40,51 @@ export default function HomePage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-			<div className="w-full max-w-2xl bg-gray-800 p-8 rounded-xl shadow-lg">
-				<h1 className="text-4xl font-bold text-center mb-2 text-cyan-400">
+		<Flex
+			align="center"
+			justify="center"
+			direction="column"
+			className="min-h-screen text-whitep-4"
+		>
+			<Card size="5" className="w-full max-w-2xl">
+				<Heading as="h1" size="9" align="center" mb="6">
 					YT Clipper
-				</h1>
-				<p className="text-center text-gray-400 mb-8">
+				</Heading>
+				<Text as="p" size="4" align="center" className="text-center" mb="4">
 					Create and download clips from YouTube videos instantly.
-				</p>
+				</Text>
 
-				<form onSubmit={handleSubmit} className="space-y-6">
-					<div>
+				<form onSubmit={handleSubmit} className="space-y-6 flex flex-col">
+					<Flex direction="column">
 						<label
 							htmlFor="url"
 							className="block text-sm font-medium text-gray-300 mb-2"
 						>
 							YouTube Video URL
 						</label>
-						<input
+						<TextField.Root
+							variant="surface"
+							size="3"
 							type="url"
 							id="url"
 							value={url}
 							onChange={(e) => setUrl(e.target.value)}
 							placeholder="https://www.youtube.com/watch?v=..."
 							required
-							className="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
 						/>
-					</div>
+					</Flex>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-						<div>
+						<Flex direction="column">
 							<label
 								htmlFor="startTime"
 								className="block text-sm font-medium text-gray-300 mb-2"
 							>
 								Start Time (MM:SS)
 							</label>
-							<input
+							<TextField.Root
+								variant="surface"
+								size="2"
 								type="text"
 								id="startTime"
 								value={startTime}
@@ -82,17 +92,18 @@ export default function HomePage() {
 								pattern="[0-5]?[0-9]:[0-5][0-9]"
 								placeholder="00:30"
 								required
-								className="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
 							/>
-						</div>
-						<div>
+						</Flex>
+						<Flex direction="column">
 							<label
 								htmlFor="endTime"
 								className="block text-sm font-medium text-gray-300 mb-2"
 							>
 								End Time (MM:SS)
 							</label>
-							<input
+							<TextField.Root
+								variant="surface"
+								size="2"
 								type="text"
 								id="endTime"
 								value={endTime}
@@ -100,16 +111,16 @@ export default function HomePage() {
 								pattern="[0-5]?[0-9]:[0-5][0-9]"
 								placeholder="01:15"
 								required
-								className="w-full bg-gray-700 border border-gray-600 rounded-md p-3 text-white focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
 							/>
-						</div>
+						</Flex>
 					</div>
 
-					<div>
-						<button
+					<Flex direction="column">
+						<Button
 							type="submit"
 							disabled={isLoading}
-							className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-4 rounded-md transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed flex items-center justify-center"
+							size="3"
+							className="w-full"
 						>
 							{isLoading ? (
 								<>
@@ -138,8 +149,8 @@ export default function HomePage() {
 							) : (
 								"Create Clip"
 							)}
-						</button>
-					</div>
+						</Button>
+					</Flex>
 				</form>
 
 				{error && (
@@ -151,18 +162,24 @@ export default function HomePage() {
 				)}
 
 				{downloadUrl && (
-					<div className="mt-6 p-4 bg-green-900/50 border border-green-700 text-green-300 rounded-md text-center">
-						<h3 className="text-xl font-semibold mb-3">Your clip is ready!</h3>
-						<a
-							href={downloadUrl}
-							download
-							className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-md transition-all duration-300"
-						>
-							Download Clip
-						</a>
-					</div>
+					<Card className="bg-green-900/50 border border-green-700" mt="6">
+						<Flex direction="column" align="center" gap="4" p="2">
+							<Heading as="h3" color="jade">
+								Your clip is ready!
+							</Heading>
+							<Button asChild color="jade">
+								<Link
+									href={downloadUrl}
+									download
+									className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-md transition-all duration-300"
+								>
+									Download Clip
+								</Link>
+							</Button>
+						</Flex>
+					</Card>
 				)}
-			</div>
-		</div>
+			</Card>
+		</Flex>
 	)
 }
