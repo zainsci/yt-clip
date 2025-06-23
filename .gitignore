@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# .gitignore
+# ... other lines
+
+# Clips
+/public/clips/*
+!/public/clips/.gitkeep
